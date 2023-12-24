@@ -1,63 +1,75 @@
 class Car {
-  final String name;
-  final Brand brand;
+  String brand;
+  String color;
+  int year;
 
-  const Car({
-    required this.name,
-    required this.brand,
-  });
-}
+  Car(this.brand, this.color, this.year);
 
-abstract class Brand {
-  final String label;
-  final String color;
+  void start() {
+    print('The $brand car is starting.');
+  }
 
-  const Brand({
-    required this.label,
-    required this.color,
-  });
-  Map<String, dynamic> toMap();
-}
-
-class CarModel extends Car {
-  CarModel({
-    required String name,
-    required BrandModel brand,
-  }) : super(
-          name: name,
-          brand: brand,
-        );
-
-  Map<String, dynamic> toMap() {
-    return {
-      'name': name,
-      'brand': brand.toMap(),
-    };
+  void stop() {
+    print('The $brand car has stopped.');
   }
 }
 
-class BrandModel extends Brand {
-  BrandModel({
-    required String label,
-    required String color,
-  }) : super(
-          label: label,
-          color: color,
-        );
+class Sedan extends Car {
+  int numberOfSeats;
+
+  Sedan(String brand, String color, int year, this.numberOfSeats)
+      : super(brand, color, year);
 
   @override
-  Map<String, dynamic> toMap() {
-    return {
-      'label': label,
-      'color': color,
-    };
+  void start() {
+    super.start();
+    print('The sedan is ready to go.');
+  }
+}
+
+class SUV extends Car {
+  bool isFourWheelDrive;
+
+  SUV(String brand, String color, int year, this.isFourWheelDrive)
+      : super(brand, color, year);
+
+  @override
+  void start() {
+    super.start();
+    print('The SUV is ready to conquer any terrain.');
+  }
+}
+
+class SportsCar extends Car {
+  bool isConvertible;
+
+  SportsCar(String brand, String color, int year, this.isConvertible)
+      : super(brand, color, year);
+
+  @override
+  void start() {
+    super.start();
+    print('The sports car is revving up.');
   }
 }
 
 void main() {
-  BrandModel brand = BrandModel(label: 'Test', color: 'white');
+  Sedan mySedan = Sedan('Toyota', 'Red', 2022, 5);
+  mySedan.start();
+  mySedan.stop();
+  print('Number of seats: ${mySedan.numberOfSeats}');
 
-  CarModel car = CarModel(name: 'T', brand: brand);
+  print('------------------------');
 
-  print(car.toMap());
+  SUV mySUV = SUV('Ford', 'Black', 2021, true);
+  mySUV.start();
+  mySUV.stop();
+  print('Four-wheel drive: ${mySUV.isFourWheelDrive}');
+
+  print('------------------------');
+
+  SportsCar mySportsCar = SportsCar('Ferrari', 'Yellow', 2023, true);
+  mySportsCar.start();
+  mySportsCar.stop();
+  print('Convertible: ${mySportsCar.isConvertible}');
 }
